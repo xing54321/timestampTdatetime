@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+<script>
+function tf (i) {
+  return (i < 10 ? '0' : '') + i
+}
+// <!-- 时间戳转时间 -->
+function getDateTime(ms) {  
+  var dateTime=undefined  
+  if(null==ms||undefined==ms||ms.toString().trim()==""){
+    dateTime=new Date()
+  }else{
+    dateTime=new Date(parseInt(ms))
+  }  
+  return tf(dateTime.getFullYear())+"-"+tf(dateTime.getMonth()+1)+"-"+tf(dateTime.getDate())+" "+tf(dateTime.getHours())+":"+tf(dateTime.getMinutes())+":"+tf(dateTime.getSeconds())+"."+dateTime.getMilliseconds()
+}
+
+// <!-- 时间转时间戳 -->
+function getTimestamp(date) { 
+  if(null==date||undefined==date||date.trim()==""){
+    return new Date().getTime()
+  } 
+  return new Date(date).getTime()       
+}
+
+function trans(){
+  var timestampE=document.getElementById("timestamp")
+  var dateTimeE=document.getElementById("dateTime")
+  if(null==timestampE||undefined==timestampE||timestampE.value.trim()==""||null==dateTimeE||undefined==dateTimeE||dateTimeE.value.trim()==""){
+  	alert("timestamp或dateTime不能为空!")
+    return
+  }
+  var timestampT=getDateTime(timestampE.value)
+  var dateTimeT=getTimestamp(dateTimeE.value)
+  
+  document.getElementById("timestampShow").innerHTML=timestampT
+  document.getElementById("dateTimeShow").innerHTML=dateTimeT
+}
+window.onload=function(){
+  var timestamp=getTimestamp()
+  document.getElementById("timestamp").value=timestamp
+  document.getElementById("dateTime").value=getDateTime(timestamp)
+}
+</script>
+
+timestamp:<br/>
+<input type="text" name="timestamp" id='timestamp' value=""/>
+13位毫秒级时间戳
+<span id="warning1"/>
+<br/>
+dateTime:<br/>
+<input type="text" name="dateTime" id='dateTime' value=""/>
+日期时间，格式yyyy-MM-dd HH:mm:ss.SSS
+<span id="warning2"/>
+<br/>
+<br/>
+<button onclick="trans()">转换</button>
+<p>时间戳：<span id="timestampShow"/></p>
+<p>日期时间：<span id="dateTimeShow"/></p>
+</body>
+</html>
